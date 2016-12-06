@@ -72,7 +72,7 @@ echo "${SNAPSHOT_LIST}" | while read line ; do
    SNAPSHOT_DATETIME="$(gcloud compute snapshots describe ${SNAPSHOT_NAME} | grep "creationTimestamp" | cut -d " " -f 2 | tr -d \')"
 
    # format the date
-   SNAPSHOT_DATETIME="$(date -d ${SNAPSHOT_DATETIME} +%Y%m%d)"
+   SNAPSHOT_DATETIME=`echo ${SNAPSHOT_DATETIME} | sed 's/^\([12]0[0-2][0-9]\)-\([01][0-9]\)-\([0-3][0-9]\).*/\1\2\3/'`
 
    # get the expiry date for snapshot deletion (currently 7 days)
    SNAPSHOT_EXPIRY="$(date -d "-${OLDER_THAN} days" +"%Y%m%d")"
